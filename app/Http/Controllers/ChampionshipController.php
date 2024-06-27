@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ChampionshipCollection;
 use App\Models\Championship;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ChampionshipController extends Controller
 {
@@ -12,7 +16,16 @@ class ChampionshipController extends Controller
      */
     public function index()
     {
-        //
+        $with = [];
+
+        if (isset($_GET['user']))   {
+
+            $with[] = 'user';
+        }
+
+        $championships = QueryBuilder::for(Championship::with($with)->where('id', Auth::user()->id))->paginate();
+
+        return new ChampionshipCollection($championships);
     }
 
     /**
