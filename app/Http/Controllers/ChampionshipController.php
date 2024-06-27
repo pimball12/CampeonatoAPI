@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChampionshipStoreRequest;
+use App\Http\Requests\ChampionshipUpdateRequest;
 use App\Http\Resources\ChampionshipCollection;
+use App\Http\Resources\ChampionshipResource;
 use App\Models\Championship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,25 +26,26 @@ class ChampionshipController extends Controller
             $with[] = 'user';
         }
 
-        $championships = QueryBuilder::for(Championship::with($with)->where('id', Auth::user()->id))->paginate();
+        if (isset($_GET['matchups']))   {
+
+            $with[] = 'matchups';
+        }
+
+        $championships = QueryBuilder::for(Championship::with($with)->where('user_id', Auth::user()->id))->paginate();
 
         return new ChampionshipCollection($championships);
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ChampionshipStoreRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $championship = Auth::user()->championships()->create($validated);
+
+        return new ChampionshipResource($championship);
     }
 
     /**
@@ -49,23 +53,29 @@ class ChampionshipController extends Controller
      */
     public function show(Championship $championship)
     {
-        //
-    }
+        if (isset($_GET['user']))   {
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Championship $championship)
-    {
-        //
+            $championship->with('user');
+        }
+
+        if (isset($_GET['matchups']))   {
+
+            $championship->with('matchups');
+        }
+
+        return new ChampionshipResource($championship);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Championship $championship)
+    public function update(ChampionshipUpdateRequest $request, Championship $championship)
     {
-        //
+        $validated = $request->validated();
+
+        $championship->update($validated);
+
+        return new ChampionshipResource($championship);
     }
 
     /**
@@ -73,6 +83,8 @@ class ChampionshipController extends Controller
      */
     public function destroy(Championship $championship)
     {
-        //
+        $championship->delete();
+
+        return response()->noContent();
     }
 }

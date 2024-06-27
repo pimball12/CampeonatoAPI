@@ -16,8 +16,9 @@ return new class extends Migration
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
             $table->foreignId('championship_id')->references('id')->on('championships');
-            $table->foreignId('team_1_id')->references('id')->on('users');
-            $table->foreignId('team_2_id')->references('id')->on('users');
+            $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('team_1_id')->references('id')->on('teams');
+            $table->foreignId('team_2_id')->references('id')->on('teams');
             $table->tinyInteger('team_1_goals')->default(0);
             $table->tinyInteger('team_2_goals')->default(0);
             $table->tinyInteger('phase')->default(1);

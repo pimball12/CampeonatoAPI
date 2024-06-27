@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Matchup extends Model
 {
@@ -11,6 +12,7 @@ class Matchup extends Model
 
     protected $fillable = [
 
+        "user_id",
         "championship_id",
         "team_1_id",
         "team_2_id",
@@ -19,18 +21,31 @@ class Matchup extends Model
         "phase"
     ];
 
+    protected $hidden = [
+
+        'user_id',
+        'team_1_id',
+        'team_2_id',
+        'championship_id'
+    ];
+
+    public function user(): BelongsTo   {
+
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function championship(): BelongsTo   {
 
         return $this->belongsTo(Championship::class, 'championship_id');
     }
 
-    public function team_1(): BelongsTo   {
+    public function team_1(): HasOne   {
 
-        return $this->belongsTo(User::class, 'team_1_id');
+        return $this->hasOne(Team::class, 'id', 'team_1_id');
     }
 
-    public function team_2(): BelongsTo   {
+    public function team_2(): HasOne   {
 
-        return $this->belongsTo(User::class, 'team_2_id');
+        return $this->hasOne(Team::class, 'id', 'team_2_id');
     }
 }
