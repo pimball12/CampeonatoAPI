@@ -40,7 +40,7 @@ class MatchupController extends Controller
             $with[] = 'team_2';
         }
 
-        $matchups = QueryBuilder::for(Matchup::with($with)->where('user_id', Auth::user()->id))->paginate();
+        $matchups = QueryBuilder::for(Matchup::with($with)->where('user_id', Auth::user()->id))->paginate(100);
 
         return new MatchupCollection($matchups);
     }

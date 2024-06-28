@@ -31,7 +31,7 @@ class ChampionshipController extends Controller
             $with[] = 'matchups';
         }
 
-        $championships = QueryBuilder::for(Championship::with($with)->where('user_id', Auth::user()->id))->paginate();
+        $championships = QueryBuilder::for(Championship::with($with)->where('user_id', Auth::user()->id))->paginate(100);
 
         return new ChampionshipCollection($championships);
     }

@@ -25,7 +25,7 @@ class TeamController extends Controller
             $with[] = 'user';
         }
 
-        $teams = QueryBuilder::for(Team::with($with)->where('user_id', Auth::user()->id))->paginate();
+        $teams = QueryBuilder::for(Team::with($with)->where('user_id', Auth::user()->id))->paginate(100);
 
         return new TeamCollection($teams);
     }
