@@ -26,11 +26,4 @@ class Team extends Model
 
         return $this->belongsTo(User::class, 'user_id');
     }
-
-    public function matchups(): HasMany   {
-
-        return $this
-            ->hasMany(Matchup::class, 'team_1_id')
-            ->hasMany(Matchup::class, 'team_2_id');
-    }
 }

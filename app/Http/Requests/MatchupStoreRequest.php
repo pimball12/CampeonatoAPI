@@ -27,13 +27,6 @@ class MatchupStoreRequest extends FormRequest
     {
         return [
 
-            'user_id' => [
-
-                'required',
-                'numeric',
-                Rule::in(User::all()->pluck('id'))
-            ],
-
             'championship_id' => [
 
                 'required',

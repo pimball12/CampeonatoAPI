@@ -25,12 +25,6 @@ class ChampionshipStoreRequest extends FormRequest
     {
         return [
 
-            'user_id'   => [
-
-                'required',
-                'numeric',
-                Rule::in(User::all()->pluck('id'))
-            ],
             'name'      => 'string|max:255'
         ];
     }

@@ -25,13 +25,6 @@ class TeamStoreRequest extends FormRequest
     {
         return [
 
-            'user_id' => [
-
-                'required',
-                'numeric',
-                Rule::in(User::all()->pluck('id'))
-            ],
-
             'name' => 'required|string|max:255'
         ];
     }

@@ -52,7 +52,7 @@ class MatchupController extends Controller
     {
         $validated = $request->validated();
 
-        $matchup = Matchup::create($validated);
+        $matchup = Auth::user()->matchups()->create($validated);
 
         return new MatchupResource($matchup);
     }
