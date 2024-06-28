@@ -29,6 +29,6 @@ class Championship extends Model
 
     public function matchups(): HasMany {
 
-        return $this->hasMany(Matchup::class, 'championship_id', 'id');
+        return $this->hasMany(Matchup::class, 'championship_id', 'id')->orderBy('id');
     }
 }
