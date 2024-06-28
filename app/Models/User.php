@@ -32,6 +32,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'email_verified_at'
     ];
 
     /**
@@ -55,5 +56,10 @@ class User extends Authenticatable
     public function teams(): HasMany {
 
         return $this->hasMany(Team::class, 'user_id');
+    }
+
+    public function matchups(): HasMany  {
+
+        return $this->hasMany(Matchup::class, 'user_id');
     }
 }

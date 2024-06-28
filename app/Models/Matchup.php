@@ -10,6 +10,12 @@ class Matchup extends Model
 {
     use HasFactory;
 
+    protected $with = [
+
+        'team_1',
+        'team_2'
+    ];
+
     protected $fillable = [
 
         "user_id",

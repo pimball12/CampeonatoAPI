@@ -55,12 +55,12 @@ class ChampionshipController extends Controller
     {
         if (isset($_GET['user']))   {
 
-            $championship->with('user');
+            $championship->load('user');
         }
 
         if (isset($_GET['matchups']))   {
 
-            $championship->with('matchups');
+            $championship->load('matchups');
         }
 
         return new ChampionshipResource($championship);

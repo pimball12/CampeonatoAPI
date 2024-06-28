@@ -25,11 +25,6 @@ class TeamController extends Controller
             $with[] = 'user';
         }
 
-        if (isset($_GET['matchups']))   {
-
-            $with[] = 'matchups';
-        }
-
         $teams = QueryBuilder::for(Team::with($with)->where('user_id', Auth::user()->id))->paginate();
 
         return new TeamCollection($teams);
@@ -42,7 +37,7 @@ class TeamController extends Controller
     {
         $validated = $request->validated();
 
-        $team = Team::create($validated);
+        $team = Auth::user()->teams()->create($validated);
 
         return new TeamResource($team);
     }
@@ -55,11 +50,6 @@ class TeamController extends Controller
         if (isset($_GET['user']))   {
 
             $team->load('user');
-        }
-
-        if (isset($_GET['matchups']))   {
-
-            $team->load('matchups');
         }
 
         return new TeamResource($team);
